@@ -4615,7 +4615,7 @@ DigiWebApp.RequestController = M.Controller.extend({
      */
     , errorCallback: {}
     
-    , softwareVersion: 2867
+    , softwareVersion: 2868
 
 
     /**
@@ -13831,7 +13831,7 @@ DigiWebApp.InfoPage = M.PageView.design({
         })
 
         , buildLabel: M.LabelView.design({
-              value: 'Build: 2867'
+              value: 'Build: 2868'
             , cssClass: 'infoLabel marginBottom25 unselectable'
         })
 
@@ -19346,14 +19346,14 @@ DigiWebApp.BautagebuchBautageberichtDetailsPage = M.PageView.design({
 				    	M.DialogView.actionSheet({
 					          title: M.I18N.l('BautagebuchSaveOrClose')
 					        , cancelButtonValue: M.I18N.l('cancel')
-					        , otherButtonValues: [M.I18N.l('save')]
-					        , destructiveButtonValue: M.I18N.l('BautagebuchBautageberichtAbschliessen')
+					        , otherButtonValues: [M.I18N.l('BautagebuchBautageberichtAbschliessen')]
+					        , destructiveButtonValue: M.I18N.l('save')
 					        , callbacks: {
 				    			  destruction: action: function() {
-		    						console.log(M.I18N.l('BautagebuchBautageberichtAbschliessen'));	
+		    						console.log(M.I18N.l('save'));	
 				    			}
 				    			, other: action: function() {
-				    				console.log(M.I18N.l('save'));	
+				    				console.log(M.I18N.l('BautagebuchBautageberichtAbschliessen'));	
 				    			}
 				    			, cancel: action: function() {
 				    				console.log(M.I18N.l('cancel'));	
