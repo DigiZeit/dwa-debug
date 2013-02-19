@@ -4912,7 +4912,7 @@ DigiWebApp.RequestController = M.Controller.extend({
      */
     , errorCallback: {}
     
-    , softwareVersion: 2912
+    , softwareVersion: 2913
 
 
     /**
@@ -14389,7 +14389,7 @@ DigiWebApp.InfoPage = M.PageView.design({
         })
 
         , buildLabel: M.LabelView.design({
-              value: 'Build: 2912'
+              value: 'Build: 2913'
             , cssClass: 'infoLabel marginBottom25 unselectable'
         })
 
@@ -20682,6 +20682,12 @@ var DigiWebApp  = DigiWebApp || {};
 function trackError(ex) {
 	var exceptionAlert = "";
 	//exceptionAlert = "Es trat leider eine unbehandelte Ausnahme auf:" + "\n\n";
+	try {
+		if (ex.indexOf("LineNumber: 0") !== -1) {
+			return true;
+		}
+	} catch(e) {
+	}
 	if (typeof(ex.message === "undefined")) {
 		exceptionAlert = exceptionAlert + "'" + ex + "'";
 	} else {
