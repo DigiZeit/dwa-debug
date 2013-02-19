@@ -4811,7 +4811,7 @@ DigiWebApp.RequestController = M.Controller.extend({
      */
     , errorCallback: {}
     
-    , softwareVersion: 2906
+    , softwareVersion: 2907
 
 
     /**
@@ -14199,7 +14199,7 @@ DigiWebApp.InfoPage = M.PageView.design({
         })
 
         , buildLabel: M.LabelView.design({
-              value: 'Build: 2906'
+              value: 'Build: 2907'
             , cssClass: 'infoLabel marginBottom25 unselectable'
         })
 
@@ -19750,6 +19750,12 @@ DigiWebApp.BautagebuchBautageberichtDetailsPage = M.PageView.design({
             /* renders a selection view like check boxes */
               selectionMode: M.SINGLE_SELECTION_DIALOG
 
+            , initialText: M.I18N.l('noData')
+            
+            , label: M.I18N.l('BautagebuchProjektleiter')
+
+            , applyTheme: NO
+
             /* this seleciton view has no static entries, instead it is filled via content binding. */
             , contentBinding: {
                   target: DigiWebApp.BautagebuchMainController
@@ -19774,6 +19780,12 @@ DigiWebApp.BautagebuchBautageberichtDetailsPage = M.PageView.design({
             /* renders a selection view like check boxes */
               selectionMode: M.SINGLE_SELECTION_DIALOG
 
+            , initialText: M.I18N.l('noData')
+          
+            , label: M.I18N.l('orders')
+
+            , applyTheme: NO
+
             /* this seleciton view has no static entries, instead it is filled via content binding. */
             , contentBinding: {
                   target: DigiWebApp.BautagebuchMainController
@@ -19797,6 +19809,10 @@ DigiWebApp.BautagebuchBautageberichtDetailsPage = M.PageView.design({
 
             /* renders a selection view like check boxes */
               selectionMode: M.MULTIPLE_SELECTION
+
+            , initialText: M.I18N.l('noData')
+            
+            , label: M.I18N.l('employees')
 
             , applyTheme: NO
 
