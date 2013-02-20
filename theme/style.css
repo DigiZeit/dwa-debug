@@ -643,7 +643,6 @@ label.ui-input-text, .ui-controlgroup-label {
     text-align: center;
 }
 
-
   .bautagebuchWetterPage .temperaturView
 , .bautagebuchWetterPage .luftfeuchteView
 , .bautagebuchWetterPage .bewoelkungView
@@ -664,7 +663,8 @@ label.ui-input-text, .ui-controlgroup-label {
 , .bautagebuchWetterPage .niederschlagSlider
 , .bautagebuchWetterPage .windSlider
 {
-    padding-top: 5px;
+    margin-right: 10px;
+    margin-top: 5px;
 }
 
 /* IOS LIKE FOOTER / TABBAR */
