@@ -635,10 +635,16 @@ label.ui-input-text, .ui-controlgroup-label {
     margin-bottom: 10px;
 }
 
-  .bautagebuchWetterPage .whiteText 
-, .bautagebuchBautageberichtDetailsPage .whiteText 
+.bautagebuchWetterPage .whiteText 
 {
     color: #FFFFFF;
+}
+
+
+.bautagebuchBautageberichtDetailsPage .whiteText 
+{
+    color: #FFFFFF;
+    vertical-align: middle;
 }
 
 .bautagebuchWetterPage .centerText {
