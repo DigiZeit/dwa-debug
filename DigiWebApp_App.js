@@ -5371,7 +5371,7 @@ DigiWebApp.RequestController = M.Controller.extend({
      */
     , errorCallback: {}
     
-    , softwareVersion: 3139
+    , softwareVersion: 3140
 
 
     /**
@@ -11730,6 +11730,7 @@ DigiWebApp.BautagebuchMedienDetailsController = M.Controller.extend({
 		var image = document.getElementById(DigiWebApp.BautagebuchMedienDetailsPage.content.image.id);
 	    image.src = '';
 	    myItem.readFromFile(function(fileContent){
+	        DigiWebApp.ApplicationController.DigiLoaderView.hide();
 			if (fileContent && (fileContent !== "")) {
 				  that.set("data", fileContent);
 			      var image = document.getElementById(DigiWebApp.BautagebuchMedienDetailsPage.content.image.id);
@@ -11759,10 +11760,22 @@ DigiWebApp.BautagebuchMedienDetailsController = M.Controller.extend({
         //    });
 		//	return false;
 		//}
-		
+
+		that.item.set("positionId", that.positionId);
+		that.item.set("positionName", that.positionName);
+		that.item.set("activityId", that.activityId);
+		that.item.set("activityName", that.activityName);
+		that.item.set("remark", that.remark);
+	    var image = document.getElementById(DigiWebApp.EditPicturePage.content.image.id);
+
+	    //that.item.set('fileType', DigiWebApp.ApplicationController.CONSTImageFiletype);
+
 		if (that.item.saveSorted()) {		
-			DigiWebApp.BautagebuchMedienListeController.set("items", DigiWebApp.BautagebuchMediaFile.findSorted(DigiWebApp.BautagebuchBautageberichtDetailsController.item.m_id));
-			DigiWebApp.NavigationController.backToBautagebuchMedienListePageTransition();
+		    that.item.saveToFile(image.src, function() {
+  		        DigiWebApp.ApplicationController.DigiLoaderView.hide();
+				DigiWebApp.BautagebuchMedienListeController.set("items", DigiWebApp.BautagebuchMediaFile.findSorted(DigiWebApp.BautagebuchBautageberichtDetailsController.item.m_id));
+				DigiWebApp.NavigationController.backToBautagebuchMedienListePageTransition();
+		    });
 			return true;
 		} else {
 			return false;
@@ -15069,13 +15082,24 @@ DigiWebApp.BautagebuchMedienDetailsPage = M.PageView.design({
 				
 				DigiWebApp.BautagebuchMedienDetailsController.setTaetigkeiten(DigiWebApp.BautagebuchMedienDetailsController.positionId);
 
+				M.ViewManager.getView('bautagebuchMedienDetailsPage', 'remarkInput').setValue(DigiWebApp.BautagebuchNotizenDetailsController.remark);
+				$('#' + DigiWebApp.BautagebuchMedienDetailsPage.content.remarkInput.id)[0].focus();
+				$('#' + DigiWebApp.BautagebuchMedienDetailsPage.content.remarkInput.id)[0].blur();
+
 			}
         }
-        , pagehide: {
-            action: function() {
-
-        	}
-        }
+		, pageshow: {
+		    action: function() {
+				$('#' + DigiWebApp.BautagebuchMedienDetailsPage.content.remarkInput.id)[0].focus();
+				$('#' + DigiWebApp.BautagebuchMedienDetailsPage.content.remarkInput.id)[0].blur();
+			}
+		}
+		, pagehide: {
+		    action: function() {
+				// reset auto-grow
+				M.ViewManager.getView('bautagebuchMedienDetailsPage', 'remarkInput').setCssProperty("height","100px");
+			}
+		}
     }
 	
     , cssClass: 'bautagebuchMedienDetailsPage'
@@ -15129,6 +15153,8 @@ DigiWebApp.BautagebuchMedienDetailsPage = M.PageView.design({
         , remarkInput: M.TextFieldView.design({
               label: M.I18N.l('remark')
             , cssClass: 'remarkInput'
+            , cssClassOnInit: 'remarkInputInitial'
+            , initialText: "max. 255 " + M.I18N.l('characters')
             , hasMultipleLines: YES
             , numberOfChars: 255
         })
@@ -15441,7 +15467,7 @@ DigiWebApp.InfoPage = M.PageView.design({
         })
 
         , buildLabel: M.LabelView.design({
-              value: 'Build: 3139'
+              value: 'Build: 3140'
             , cssClass: 'infoLabel marginBottom25 unselectable'
         })
 
