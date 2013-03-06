@@ -5294,7 +5294,7 @@ DigiWebApp.RequestController = M.Controller.extend({
      */
     , errorCallback: {}
     
-    , softwareVersion: 3131
+    , softwareVersion: 3132
 
 
     /**
@@ -15214,7 +15214,7 @@ DigiWebApp.InfoPage = M.PageView.design({
         })
 
         , buildLabel: M.LabelView.design({
-              value: 'Build: 3131'
+              value: 'Build: 3132'
             , cssClass: 'infoLabel marginBottom25 unselectable'
         })
 
@@ -22690,6 +22690,7 @@ DigiWebApp.BautagebuchNotizenDetailsPage = M.PageView.design({
         						if (myValue.length <= 4000) {
         							DigiWebApp.BautagebuchNotizenDetailsController.set("data", M.ViewManager.getView('bautagebuchNotizenDetailsPage', 'dataInput').getValue());
         						} else {
+        							M.ViewManager.getView('bautagebuchNotizenDetailsPage', 'dataInput').setValue(DigiWebApp.BautagebuchNotizenDetailsController.data);
         				            DigiWebApp.ApplicationController.nativeAlertDialogView({
         				                title: M.I18N.l('maximaleFeldlaengeErreicht')
         				              , message: M.I18N.l('maximaleFeldlaengeErreichtMsg')
