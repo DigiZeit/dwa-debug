@@ -6129,7 +6129,7 @@ DigiWebApp.RequestController = M.Controller.extend({
      */
     , errorCallback: {}
     
-    , softwareVersion: 3213
+    , softwareVersion: 3214
 
 
     /**
@@ -10821,6 +10821,10 @@ DigiWebApp.ApplicationController = M.Controller.extend({
 		if (DigiWebApp.ApplicationController.timeoutdeviceready_var !== null) clearTimeout(DigiWebApp.ApplicationController.timeoutdeviceready_var);
 		DigiWebApp.ApplicationController.timeouthappened = true;
         console.log("DIGI-WebApp hat Plattform \"" + M.Environment.getPlatform() + "\" (" + navigator.userAgent + ") erkannt. Es werden keine Eventhandler registriert! (Version " + M.Application.getConfig('version') + ")");
+        // if in Chrome: enable FileSystem
+        if (typeof(window.webkitStorageInfo) !== "undefined") {
+        	window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
+        }
         this.skipEvents = true;
 		this.devicereadyhandler();
 	}
@@ -16428,7 +16432,7 @@ DigiWebApp.InfoPage = M.PageView.design({
         })
 
         , buildLabel: M.LabelView.design({
-              value: 'Build: 3213'
+              value: 'Build: 3214'
             , cssClass: 'infoLabel marginBottom25 unselectable'
         })
 
@@ -24373,11 +24377,6 @@ if (!window.console) {
 window.newAppVersionAvailable = NO;
 
 M.Application.useTransitions = NO;
-
-// enable FileSystem also in Chrome
-if (typeof(window.webkitStorageInfo) !== "undefined") {
-	window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
-}
 
 var DigiWebApp  = DigiWebApp || {};
 
