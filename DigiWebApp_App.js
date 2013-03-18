@@ -2584,17 +2584,14 @@ DigiWebApp.MediaFile = M.Model.create({
 					  console.error('Error while requesting Quota', e);
 				});
 			} else {
-				alert("using window.requestFileSystem");
 
 			    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
-			    	alert("got fileSystem");
+
 			    	// get dataDirectory from filesystem (create if not exists)
 			    	fileSystem.root.getDirectory("DIGIWebAppData", {create: true, exclusive: false}, function(dataDirectory) {
-			    		alert("got dataDirectory");
 				    			
 				    	// get fileEntry from filesystem
 				    	dataDirectory.getFile(that.get("fileName"), null, function(fileEntry) {
-				    		alert("got fileEntry");
 				    		
 				    		// get file from fileEntry
 				    		fileEntry.file(function(file) {
@@ -2602,7 +2599,6 @@ DigiWebApp.MediaFile = M.Model.create({
 				    			// read from file
 				    			var reader = new FileReader();
 				    			reader.onloadend = function(evt) {
-				    		    	alert("loadend");
 				    		    	// return content via successCallback
 				    				successCallback(evt.target.result);
 				    				
@@ -4562,7 +4558,7 @@ DigiWebApp.CameraController = M.Controller.extend({
     , myImageData: null
     , myImageObj: null
     , cameraSuccessBase64: function(imageData) {
-    	alert("success");
+    	//alert("success");
     	DigiWebApp.CameraController.myImageData = imageData;
         var image = document.getElementById(DigiWebApp.CameraPage.content.image.id);
         image.src = 'data:' + DigiWebApp.ApplicationController.CONSTImageFiletype + ',' + imageData;
@@ -6133,7 +6129,7 @@ DigiWebApp.RequestController = M.Controller.extend({
      */
     , errorCallback: {}
     
-    , softwareVersion: 3212
+    , softwareVersion: 3213
 
 
     /**
@@ -14845,7 +14841,7 @@ DigiWebApp.MediaListController = M.Controller.extend({
 		    		        		// auf Geraet:
 		    		        		navigator.camera.getPicture(
 	    		        				  function(imgData) {
-	    		        				    	alert("success");
+	    		        				    	//alert("success");
 	    		        					  if (imgData.indexOf("data:") === 0) {
 					    		        		DigiWebApp.CameraController.set("loadedPicture", imgData);
 	    		        					  } else {
@@ -16432,7 +16428,7 @@ DigiWebApp.InfoPage = M.PageView.design({
         })
 
         , buildLabel: M.LabelView.design({
-              value: 'Build: 3212'
+              value: 'Build: 3213'
             , cssClass: 'infoLabel marginBottom25 unselectable'
         })
 
