@@ -6235,7 +6235,7 @@ DigiWebApp.RequestController = M.Controller.extend({
      */
     , errorCallback: {}
     
-    , softwareVersion: 3288
+    , softwareVersion: 3289
 
 
     /**
@@ -12782,8 +12782,7 @@ DigiWebApp.BautagebuchZusammenfassungController = M.Controller.extend({
 				    	  // benutze diese Zeitbuchung
 					   		mySumme = mySumme.addHours(zeitbuch.get("dauer").split(":")[0]).addMinutes(zeitbuch.get("dauer").split(":")[1]);
 					   				var zeitbuchItem = {
-					   					  von: zeitbuch.get("von")
-					   					, bis: zeitbuch.get("bis")
+					   					  vonbisdauer : zeitbuch.get("von") + " - " + zeitbuch.get("bis") + " (" + zeitbuch.get("dauer") + ")"
 					   					, positionName: zeitbuch.get("positionName")
 					   					, activityName: zeitbuch.get("activityName")
 					   				}
@@ -16820,7 +16819,7 @@ DigiWebApp.InfoPage = M.PageView.design({
         })
 
         , buildLabel: M.LabelView.design({
-              value: 'Build: 3288'
+              value: 'Build: 3289'
             , cssClass: 'infoLabel marginBottom25 unselectable'
         })
 
@@ -20317,7 +20316,7 @@ DigiWebApp.BautagebuchZusammenfassungMitarbeiterSummeTemplateView = M.ListItemVi
       isSelectable: NO
 
     //, childViews: 'grid'
-	, childViews: 'position activity von bis'
+	, childViews: 'position activity vonbis'
 
     , events: {
         tap: {
@@ -20335,7 +20334,7 @@ DigiWebApp.BautagebuchZusammenfassungMitarbeiterSummeTemplateView = M.ListItemVi
     }
 
 	, position: M.LabelView.design({
-	    	cssClass: 'normal unselectable bigLabel right'
+	    	cssClass: 'normal unselectable bigLabel'
 		  , isInline: YES
 		  , computedValue: {
 		        valuePattern: '<%= positionName %>'
@@ -20346,45 +20345,28 @@ DigiWebApp.BautagebuchZusammenfassungMitarbeiterSummeTemplateView = M.ListItemVi
 	})
 	
 	, activity: M.LabelView.design({
-		    cssClass: 'normal unselectable bigLabel right'
+		    cssClass: 'normal unselectable bigLabel'
 	  	  , isInline: YES
 		  , computedValue: {
 		        valuePattern: '<%= activityName %>'
 		      , operation: function(v) {
-					return v;
+					return ", " + v;
 		      }
 		  }
 	})
 		
 
-	, von: M.LabelView.design({
-	    cssClass: 'normal unselectable bigLabel'
+	, vonbisdauer: M.LabelView.design({
+	    cssClass: 'normal unselectable bigLabel right'
 	  , isInline: YES
 	  , computedValue: {
-	        valuePattern: '<%= von %>'
+	        valuePattern: '<%= vonbisdauer %>'
 	      , operation: function(v) {
-//			    		var myMitarbeiter = DigiWebApp.BautagebuchMitarbeiter.find({query:{identifier: 'id', operator: '=', value: v}})[0];
-//			    		if (typeof myMitarbeiter !== "undefined") {
-//			    			return myMitarbeiter.vollername();
-//			        	} else {
-//			        		return v;
-//			        	}
 					return v;
 	      }
 	  }
 	})
-	
-	, bis: M.LabelView.design({
-	    cssClass: 'normal unselectable bigLabel right'
-  	  , isInline: YES
-	  , computedValue: {
-	        valuePattern: '<%= bis %>'
-	      , operation: function(v) {
-						return v;
-	      }
-	  }
-	})
-		
+			
 //	, grid: M.GridView.design({
 //		
 //		  layout: M.TWO_COLUMNS

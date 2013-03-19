@@ -773,6 +773,11 @@ label.ui-input-text, .ui-controlgroup-label {
 	padding: 15px;
 }
 
+
+.bautagebuchZusammenfassungScrollView li.ui-li-static {
+	color: #000;
+}
+
 .bautagebuchZusammenfassungScrollView .hugeLabel {
 	font-size: 24px;
 }
