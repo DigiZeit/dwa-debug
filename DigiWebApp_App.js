@@ -6235,7 +6235,7 @@ DigiWebApp.RequestController = M.Controller.extend({
      */
     , errorCallback: {}
     
-    , softwareVersion: 3287
+    , softwareVersion: 3288
 
 
     /**
@@ -12784,6 +12784,8 @@ DigiWebApp.BautagebuchZusammenfassungController = M.Controller.extend({
 					   				var zeitbuchItem = {
 					   					  von: zeitbuch.get("von")
 					   					, bis: zeitbuch.get("bis")
+					   					, positionName: zeitbuch.get("positionName")
+					   					, activityName: zeitbuch.get("activityName")
 					   				}
 					   				items.push(zeitbuchItem);
 				      	}
@@ -16818,7 +16820,7 @@ DigiWebApp.InfoPage = M.PageView.design({
         })
 
         , buildLabel: M.LabelView.design({
-              value: 'Build: 3287'
+              value: 'Build: 3288'
             , cssClass: 'infoLabel marginBottom25 unselectable'
         })
 
@@ -20339,8 +20341,8 @@ DigiWebApp.BautagebuchZusammenfassungMitarbeiterSummeTemplateView = M.ListItemVi
 		        valuePattern: '<%= positionName %>'
 		      , operation: function(v) {
 					return v;
-	      }
-	  }
+	      	  }
+	  	  }
 	})
 	
 	, activity: M.LabelView.design({
@@ -20499,7 +20501,7 @@ DigiWebApp.BautagebuchZusammenfassungPage = M.PageView.design({
         				})
   		    			, auftrag: M.LabelView.design({
   						      value: ''
-  						    , cssClass: 'bigLabel bold'
+  						    , cssClass: 'bigLabel bold underline'
   						    , isInline: YES
   						    , computedValue: {
   						          contentBinding: {
@@ -20514,7 +20516,7 @@ DigiWebApp.BautagebuchZusammenfassungPage = M.PageView.design({
   		    			})
               			, datum: M.LabelView.design({
         				      value: ''
-        				    , cssClass: 'bigLabel bold'
+        				    , cssClass: 'bigLabel bold underline'
   						    , isInline: YES
         				    , contentBinding: {
         				          target: DigiWebApp.BautagebuchZusammenfassungController
@@ -20762,7 +20764,7 @@ DigiWebApp.BautagebuchZusammenfassungPage = M.PageView.design({
       	    	  	, doNotOverlapAtBottom: YES
       	    	  	, myLabel: M.LabelView.design({
       	    	  		  cssClass: 'bigLabel bold'
-      	    	  		, value: M.I18N.l('BautagebuchZeiten') + ":"
+      	    	  		, value: M.I18N.l('BautagebuchLeistungsnachweis') + ":"
       	    	  	})
 	    	        , list: M.ListView.design({
 	    	        	  cssClass: 'marginTop20'

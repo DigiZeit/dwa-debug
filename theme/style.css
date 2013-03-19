@@ -787,6 +787,9 @@ label.ui-input-text, .ui-controlgroup-label {
 	position: absolute;
 	text-align: right;
 }
+.bautagebuchZusammenfassungScrollView .underline {
+	text-decoration: underline;
+}
 
 .bautagebuchZusammenfassungScrollView .zeitenSummeList {
 	border-top-color: #999;
