@@ -5098,6 +5098,8 @@ DigiWebApp.BautagebuchDatenuebertragungController = M.Controller.extend({
 //		var internalSuccessCallback = function(data, msg, request) {
 //			// verarbeite empfangene Daten
 //						
+//		console.log("empfangeMengeneinheiten Status: " + request.status);
+//
 //			// wurde eine Mengeneinheitenliste erhalten?
 //			if (typeof(data.mengeneinheiten) === "undefined") {
 //				console.error("missing mengeneinheiten");
@@ -5154,6 +5156,8 @@ DigiWebApp.BautagebuchDatenuebertragungController = M.Controller.extend({
 		var internalSuccessCallback = function(data, msg, request) {
 			// verarbeite empfangene Daten
 			
+			console.log("empfangeMaterialien Status: " + request.status);
+
 			var myMaterialliste = [];
 			
 			// wurde eine materialliste erhalten?
@@ -5204,6 +5208,8 @@ DigiWebApp.BautagebuchDatenuebertragungController = M.Controller.extend({
 		var internalSuccessCallback = function(data, msg, request) {
 			// verarbeite empfangene Daten
 						
+			console.log("empfangeProjektleiter Status: " + request.status);
+
 			// wurde eine Projektleiterliste erhalten?
 			if (typeof(data.projektleiter) === "undefined") {
 				console.error("missing projektleiterliste");
@@ -5261,6 +5267,8 @@ DigiWebApp.BautagebuchDatenuebertragungController = M.Controller.extend({
 		var internalSuccessCallback = function(data, msg, request) {
 			// verarbeite empfangene Daten
 						
+			console.log("empfangeMitarbeiter Status: " + request.status);
+			
 			// wurde eine Mitarbeiterliste erhalten?
 			if (typeof(data.mitarbeiter) === "undefined") {
 				console.error("missing projektleiterliste");
@@ -6547,7 +6555,7 @@ DigiWebApp.RequestController = M.Controller.extend({
      */
     , errorCallback: {}
     
-    , softwareVersion: 3378
+    , softwareVersion: 3379
 
 
     /**
@@ -17157,7 +17165,7 @@ DigiWebApp.InfoPage = M.PageView.design({
         })
 
         , buildLabel: M.LabelView.design({
-              value: 'Build: 3378'
+              value: 'Build: 3379'
             , cssClass: 'infoLabel marginBottom25 unselectable'
         })
 
