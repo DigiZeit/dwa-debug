@@ -2,8 +2,8 @@
 <widget xmlns	= "http://www.w3.org/ns/widgets"
 	xmlns:gap	= "http://phonegap.com/ns/1.0"
 	id		    = "com.digi.webappbeta"
-	versionCode = "3521"
-	version 	= "1.5.0.3521">
+	versionCode = "3522"
+	version 	= "1.5.0.3522">
 
 	<name>DIGI-WebApp Beta</name>
 
@@ -85,6 +85,8 @@ which PhoneGap requires. -->
 	<icon src="theme/images/icon-winphone.jpg" gap:platform="winphone" />
 	<icon src="theme/images/tile-icon-winphone.jpg" gap:platform="winphone" gap:role="background" />
 
+	<gap:splash src="splash.png" />
+
 <!-- if a single splash screen is specified the build will use it for 
 all builds. Currently, all platforms except ios use a single splash 
 screen -->
@@ -95,13 +97,15 @@ screen -->
 	<gap:splash src="theme/images/320x480_90_DIGI-WebApp_mitLogo.png" gap:platform="android" gap:density="ldpi" />
 	<gap:splash src="theme/images/640x960_90_DIGI-WebApp_mitLogo.png" gap:platform="android" gap:density="mdpi" />
 	<gap:splash src="theme/images/768x1024_90_DIGI-WebApp_mitLogo.png" gap:platform="android" gap:density="hdpi" />
-
+    <gap:splash src="theme/images/768x1024_90_DIGI-WebApp_mitLogo.png" gap:platform="android" gap:density="xhdpi" />
+    
 <!-- iOS requires specific dimensions for splash screens; classic iPhone screens, Retina 
 Screens, and iPad screen respectively --> 
-	<gap:splash src="theme/images/1024x768_90_DIGI-WebApp_mitLogo.png" gap:platform="ios" width="1024" height="768" />
-	<gap:splash src="theme/images/768x1024_90_DIGI-WebApp_mitLogo.png" gap:platform="ios" width="768" height="1024" />
 	<gap:splash src="theme/images/320x480_90_DIGI-WebApp_mitLogo.png" gap:platform="ios" width="320" height="480" />
 	<gap:splash src="theme/images/640x960_90_DIGI-WebApp_mitLogo.png" gap:platform="ios" width="640" height="960" />
+	<gap:splash src="theme/images/640x960_90_DIGI-WebApp_mitLogo.png" gap:platform="ios" width="640" height="1136" />
+	<gap:splash src="theme/images/768x1024_90_DIGI-WebApp_mitLogo.png" gap:platform="ios" width="768" height="1024" />
+	<gap:splash src="theme/images/1024x768_90_DIGI-WebApp_mitLogo.png" gap:platform="ios" width="1024" height="768" />
 
 <!-- Windows Phone 7 requires a specific dimension or platform attribute -->
 	<gap:splash src="theme/images/480x800_90_DIGI-WebApp_mitLogo.jpg" gap:platform="winphone" />
