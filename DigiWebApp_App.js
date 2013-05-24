@@ -2150,8 +2150,7 @@ DigiWebApp.Booking = M.Model.create({
 			    }, errorCallback);             // window.requestFileSystem
 			}
 		} catch(e) {
-			console.error(e);
-			errorCallback();
+			errorCallback(e);
 		}
 
     }
@@ -2255,8 +2254,7 @@ DigiWebApp.Booking = M.Model.create({
 			    }, errorCallback);             // window.requestFileSystem
 			}
 		} catch(e) {
-			console.error(e);
-			errorCallback();
+			errorCallback(e);
 		}
 	}
 	
@@ -2335,8 +2333,7 @@ DigiWebApp.Booking = M.Model.create({
 			    }, errorCallback);             // window.requestFileSystem
 			}
 		} catch(e) {
-			console.error(e);
-			errorCallback();
+			errorCallback(e);
 		}
 	}
 
@@ -2583,8 +2580,7 @@ DigiWebApp.MediaFile = M.Model.create({
 			    }, errorCallback);             // window.requestFileSystem
 			}
 		} catch(e) {
-			console.error(e);
-			errorCallback();
+			errorCallback(e);
 		}
 
     }
@@ -2687,8 +2683,7 @@ DigiWebApp.MediaFile = M.Model.create({
 			    }, errorCallback);             // window.requestFileSystem
 			}
 		} catch(e) {
-			console.error(e);
-			errorCallback();
+			errorCallback(e);
 		}
 	}
 	
@@ -2767,8 +2762,7 @@ DigiWebApp.MediaFile = M.Model.create({
 			    }, errorCallback);             // window.requestFileSystem
 			}
 		} catch(e) {
-			console.error(e);
-			errorCallback();
+			errorCallback(e);
 		}
 	}
 
@@ -2996,8 +2990,7 @@ DigiWebApp.BautagebuchBautagesbericht = M.Model.create({
 			    }, errorCallback);             // window.requestFileSystem
 			}
 		} catch(e) {
-			console.error(e);
-			errorCallback();
+			errorCallback(e);
 		}
 	
 	}
@@ -3100,8 +3093,7 @@ DigiWebApp.BautagebuchBautagesbericht = M.Model.create({
 			    }, errorCallback);             // window.requestFileSystem
 			}
 		} catch(e) {
-			console.error(e);
-			errorCallback();
+			errorCallback(e);
 		}
 	}
 	
@@ -3180,8 +3172,7 @@ DigiWebApp.BautagebuchBautagesbericht = M.Model.create({
 			    }, errorCallback);             // window.requestFileSystem
 			}
 		} catch(e) {
-			console.error(e);
-			errorCallback();
+			errorCallback(e);
 		}
 	}
 
@@ -3682,8 +3673,7 @@ DigiWebApp.BautagebuchMediaFile = M.Model.create({
 			    }, errorCallback);             // window.requestFileSystem
 			}
 		} catch(e) {
-			console.error(e);
-			errorCallback();
+			errorCallback(e);
 		}
 	
 	}
@@ -3787,8 +3777,7 @@ DigiWebApp.BautagebuchMediaFile = M.Model.create({
 			    }, errorCallback);             // window.requestFileSystem
 			}
 		} catch(e) {
-			console.error(e);
-			errorCallback();
+			errorCallback(e);
 		}
 	}
 	
@@ -3867,8 +3856,7 @@ DigiWebApp.BautagebuchMediaFile = M.Model.create({
 			    }, errorCallback);             // window.requestFileSystem
 			}
 		} catch(e) {
-			console.error(e);
-			errorCallback();
+			errorCallback(e);
 		}
 	}
 
@@ -6671,7 +6659,7 @@ DigiWebApp.RequestController = M.Controller.extend({
      */
     , errorCallback: {}
     
-    , softwareVersion: 3530
+    , softwareVersion: 3531
 
 
     /**
@@ -17795,7 +17783,7 @@ DigiWebApp.InfoPage = M.PageView.design({
         })
 
         , buildLabel: M.LabelView.design({
-              value: 'Build: 3530'
+              value: 'Build: 3531'
             , cssClass: 'infoLabel marginBottom25 unselectable'
         })
 
