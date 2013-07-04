@@ -15,7 +15,7 @@ M.I18N.de_de = {
 	, book2: "buchen..."
 	, closingTime: "Feierabend"
 	, handApplications: "Handauftrag"
-	, dataTransfer: "Daten&shy;übertragung"
+	, dataTransfer: "Datenübertragung"
 	, info: "Info und Sprache"
 	, settings: "Einstellungen"
 	, timeData: "Zeitdaten"
@@ -196,10 +196,10 @@ M.I18N.de_de = {
 	, noApplicationUpdateAvailableMsg: "DIGI-WebApp ist bereits auf dem aktuellen Stand"
 	, useTransitionsSetting: "Animationen"
 	, waitingForDevice: "Bitte Warten ..."
-	, recordAudio: "Sprachaufzeichnung&shy; (DEMO)"
+	, recordAudio: "Sprachaufzeichnung (DEMO)"
 	, signature: "Unterschrift"
-	, materialPickUp: "Materialerfassung&shy; (DEMO)"
-	, dailyChecklist: "Tagescheckliste&shy; (DEMO)"
+	, materialPickUp: "Materialerfassung (DEMO)"
+	, dailyChecklist: "Tagescheckliste (DEMO)"
 	, loadSignatures: "Lade Unterschriften ..."
 	, phone: "Telefon"
 	, fax: "Fax"
@@ -304,6 +304,11 @@ M.I18N.de_de = {
 	, ungueltigeZahlMsg: 'Sie können nicht . und , gleichzeitig verwenden!'
 	, notActivated: 'Fehlende Freischaltung!'
 	, notActivatedMsg: 'Diese Funktion ist nicht freigeschaltet!'
+		
+    , ServiceApp_ermittleGeokoordinate: 'ServiceApp: Geokoordinaten'
+    , ServiceApp_datenUebertragen: 'ServiceApp: Datenübertragung'
+	, ServiceApp_engeKopplung: 'ServiceApp: enge Kopplung'
+	, ServiceApp_PORT: 'ServiceApp: Port'
 		
 	, second: "Sekunde"
 	, seconds: "Sekunden"
