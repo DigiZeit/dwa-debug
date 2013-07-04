@@ -2,8 +2,8 @@
 <widget xmlns	= "http://www.w3.org/ns/widgets"
 	xmlns:gap	= "http://phonegap.com/ns/1.0"
 	id		    = "com.digi.webappbeta"
-	versionCode = "3652"
-	version 	= "1.5.1.3652">
+	versionCode = "3588"
+	version 	= "1.5.1.3588">
 
 	<name>DIGI-WebApp Beta</name>
 
@@ -30,7 +30,7 @@
 	<preference name="android-installLocation" value="auto" />
 	<preference name="fullscreen" value="true" />
 	<preference name="autorotate" value="false" readonly="false" />
-	<preference name="phonegap-version" value="2.9.0" />
+	<preference name="phonegap-version" value="2.7.0" />
 	<preference name="orientation" value="portrait" />
 	<preference name="load-url-timeout" value="60000" />
 	<preference name="splash-screen-duration" value="60000" />
@@ -109,7 +109,5 @@ Screens, and iPad screen respectively -->
 
 <!-- Windows Phone 7 requires a specific dimension or platform attribute -->
 	<gap:splash src="theme/images/480x800_90_DIGI-WebApp_mitLogo.jpg" gap:platform="winphone" />
-	
-	<access origin="*" />
 	
 </widget>
