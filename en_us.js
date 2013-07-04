@@ -15,7 +15,7 @@ M.I18N.en_us = {
 	, book2: "book..."
 	, closingTime: "Closing time"
 	, handApplications: "Handorder"
-	, dataTransfer: "Datatransfer"
+	, dataTransfer: "Data&shy;transfer"
 	, info: "Info and Language"
 	, settings: "Settings"
 	, timeData: "Timedata"
@@ -196,10 +196,10 @@ M.I18N.en_us = {
 	, noApplicationUpdateAvailableMsg: "DIGI-WebApp is already up to date"
 	, useTransitionsSetting: "Transitions"
 	, waitingForDevice: "Please wait ..."
-	, recordAudio: "Audiorecording (DEMO)"
+	, recordAudio: "Audiorecording&shy; (DEMO)"
 	, signature: "Signature"
-	, materialPickUp: "Material pick up (DEMO)"
-	, dailyChecklist: "Daily checklist (DEMO)"
+	, materialPickUp: "Material pick up&shy; (DEMO)"
+	, dailyChecklist: "Daily checklist&shy; (DEMO)"
 	, loadSignatures: "Loading signatures ..."
 	, phone: "Phone"
 	, fax: "Fax"
@@ -302,14 +302,6 @@ M.I18N.en_us = {
 	, errorWhileRequestingQuota: "Not enough space available!"
 	, ungueltigeZahl : 'Wrong Numberformat'
 	, ungueltigeZahlMsg: 'You cannot use . and , at the same time!'
-	, notActivated: 'Missing feature activation!'
-	, notActivatedMsg: 'This feature has not been activated!'
-
-    , ServiceApp_ermittleGeokoordinate: 'ServiceApp: Geocoordinates'
-    , ServiceApp_datenUebertragen: 'ServiceApp: Datatransfer'
-	, ServiceApp_engeKopplung: 'ServiceApp: tight coupling'
-	, ServiceApp_PORT: 'ServiceApp: Port'
-			
 
 	, second: "Second"
 	, seconds: "Seconds"
