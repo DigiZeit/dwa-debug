@@ -6934,7 +6934,7 @@ DigiWebApp.RequestController = M.Controller.extend({
      */
     , errorCallback: {}
     
-    , softwareVersion: 3683
+    , softwareVersion: 3684
 
 
     /**
@@ -9552,7 +9552,7 @@ DigiWebApp.JSONDatenuebertragungController = M.Controller.extend({
 	  consoleLogOutput: YES
 
 	, sendData: function(data, webservice, loaderText, successCallback, errorCallback, additionalQueryParameter) {
-		if (!DigiWebApp.RequestController.DatabaseServer && (DigiWebApp.RequestController.DatabaseServerTimestamp - new Date().getTime() < 60000)) {
+	if (!DigiWebApp.RequestController.DatabaseServer || (DigiWebApp.RequestController.DatabaseServerTimestamp && (DigiWebApp.RequestController.DatabaseServerTimestamp - new Date().getTime() > 60000))) {
 		  	DigiWebApp.RequestController.getDatabaseServer(function(obj) {
 		  		DigiWebApp.JSONDatenuebertragungController.sendDataWithServer(data, webservice, loaderText, successCallback, errorCallback, additionalQueryParameter);
 		  	}, null);
@@ -9597,7 +9597,7 @@ DigiWebApp.JSONDatenuebertragungController = M.Controller.extend({
 	}
 
 	, recieveData: function(webservice, loaderText, successCallback, errorCallback, additionalQueryParameter) {
-		if (!DigiWebApp.RequestController.DatabaseServer && (DigiWebApp.RequestController.DatabaseServerTimestamp - new Date().getTime() < 60000)) {
+		if (!DigiWebApp.RequestController.DatabaseServer || (DigiWebApp.RequestController.DatabaseServerTimestamp && (DigiWebApp.RequestController.DatabaseServerTimestamp - new Date().getTime() > 60000))) {
 		  	DigiWebApp.RequestController.getDatabaseServer(function(obj) {
 		  		DigiWebApp.JSONDatenuebertragungController.recieveDataWithServer(webservice, loaderText, successCallback, errorCallback, additionalQueryParameter);
 		  	}, null);
@@ -18982,7 +18982,7 @@ DigiWebApp.InfoPage = M.PageView.design({
         })
 
         , buildLabel: M.LabelView.design({
-              value: 'Build: 3683'
+              value: 'Build: 3684'
             , cssClass: 'infoLabel marginBottom25 unselectable'
         })
 
