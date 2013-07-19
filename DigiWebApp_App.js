@@ -7186,7 +7186,7 @@ DigiWebApp.RequestController = M.Controller.extend({
      */
     , errorCallback: {}
     
-    , softwareVersion: 3730
+    , softwareVersion: 3731
 
 
     /**
@@ -12468,6 +12468,7 @@ DigiWebApp.ServiceAppController = M.Controller.extend({
 							modelBooking.set("gps_zeitstempelBis", datensatz.gps_zeitstempelBis);
 							modelBooking.set("gps_zeitstempelVon", datensatz.gps_zeitstempelVon);
 							modelBooking.save();
+							alert("datensatz " + datensatz.m_id + " gespeichert");
 						}
 					}
 					var modelBooking = _.find(DigiWebApp.Booking.find(), function(b) { return b.m_id === datensatz.m_id});
@@ -19825,7 +19826,7 @@ DigiWebApp.InfoPage = M.PageView.design({
         })
 
         , buildLabel: M.LabelView.design({
-              value: 'Build: 3730'
+              value: 'Build: 3731'
             , cssClass: 'infoLabel marginBottom25 unselectable'
         })
 
