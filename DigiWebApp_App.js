@@ -7186,7 +7186,7 @@ DigiWebApp.RequestController = M.Controller.extend({
      */
     , errorCallback: {}
     
-    , softwareVersion: 3740
+    , softwareVersion: 3741
 
 
     /**
@@ -12472,6 +12472,7 @@ DigiWebApp.ServiceAppController = M.Controller.extend({
 		});
 		that.getBookings(bookingIdsRefresh, function(data){
 			try {
+				console.log(JSON.stringify(data));
 				var recievedBookings = data.GET.buchungen;
 				_.each(recievedBookings, function(rBooking) {
 					var datensatz = rBooking.datensatz;
@@ -19857,7 +19858,7 @@ DigiWebApp.InfoPage = M.PageView.design({
         })
 
         , buildLabel: M.LabelView.design({
-              value: 'Build: 3740'
+              value: 'Build: 3741'
             , cssClass: 'infoLabel marginBottom25 unselectable'
         })
 
