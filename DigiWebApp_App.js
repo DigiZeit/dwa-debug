@@ -7198,7 +7198,7 @@ DigiWebApp.RequestController = M.Controller.extend({
      */
     , errorCallback: {}
     
-    , softwareVersion: 3799
+    , softwareVersion: 3800
 
 
     /**
@@ -16943,22 +16943,26 @@ DigiWebApp.SettingsController = M.Controller.extend({
             		         	$('#' + DigiWebApp.SettingsPage.content.ServiceApp_ermittleGeokoordinate.id).show();
             		         	$('#' + DigiWebApp.SettingsPage.content.ServiceApp_engeKopplung.id).show();
             		         	if (JSON.parse(data) !== null) {
-	            		         	var deleteBookingsInServiceappIDs = [];
-	            		         	var allBookings = DigiWebApp.Booking.find();
-	            		         	_.each(JSON.parse(data).GET.buchungen, function(buchung){
-	            		         		var found = false;
-	            		         		var datensatzObj = buchung.datensatz;
-	            		         		_.each(allBookings, function(modelBooking){
-	            		         			if (modelBooking.m_id === datensatzObj.m_id) {
-	            		         				found = true;
-	            		         			}
-	            		         		});
-	            		         		if (!found) {
-	            		         			deleteBookingsInServiceappIDs.push(datensatzObj.m_id);
-	            		         		}
-	            		         	});
-	            		         	if (DigiWebApp.SettingsController.getSetting("debug")) console.log("deleteBookingsInServiceappIDs:",deleteBookingsInServiceappIDs);
-	      		  				    DigiWebApp.ServiceAppController.deleteBookings(deleteBookingsInServiceappIDs, cleanDataDirectory, cleanDataDirectory)
+            		         		try {
+		            		         	var deleteBookingsInServiceappIDs = [];
+		            		         	var allBookings = DigiWebApp.Booking.find();
+		            		         	_.each(JSON.parse(data).GET.buchungen, function(buchung){
+		            		         		var found = false;
+		            		         		var datensatzObj = buchung.datensatz;
+		            		         		_.each(allBookings, function(modelBooking){
+		            		         			if (modelBooking.m_id === datensatzObj.m_id) {
+		            		         				found = true;
+		            		         			}
+		            		         		});
+		            		         		if (!found) {
+		            		         			deleteBookingsInServiceappIDs.push(datensatzObj.m_id);
+		            		         		}
+		            		         	});
+		            		         	if (DigiWebApp.SettingsController.getSetting("debug")) console.log("deleteBookingsInServiceappIDs:",deleteBookingsInServiceappIDs);
+		      		  				    DigiWebApp.ServiceAppController.deleteBookings(deleteBookingsInServiceappIDs, cleanDataDirectory, cleanDataDirectory)
+            		         		} catch(e) {
+            		         			cleanDataDirectory();
+            		         		}
             		         	} else {
             		         		cleanDataDirectory();
             		         	}
@@ -20027,7 +20031,7 @@ DigiWebApp.InfoPage = M.PageView.design({
         })
 
         , buildLabel: M.LabelView.design({
-              value: 'Build: 3799'
+              value: 'Build: 3800'
             , cssClass: 'infoLabel marginBottom25 unselectable'
         })
 
