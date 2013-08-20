@@ -7311,7 +7311,7 @@ DigiWebApp.RequestController = M.Controller.extend({
      */
     , errorCallback: {}
     
-    , softwareVersion: 3926
+    , softwareVersion: 3927
 
 
     /**
@@ -15993,7 +15993,7 @@ DigiWebApp.ZeitbuchungenController = M.Controller.extend({
 	            			DigiWebApp.ApplicationController.DigiLoaderView.hide();
 	            			try {
 		                        if ((!records) || (records && records.length === 0) 
-		                        || (records && records.length === 1 && (typeof(records[0].get('mitarbeiterId')) === "undefined" || records[0].get('mitarbeiterId') === null) {
+		                        || (records && records.length === 1 && (typeof(records[0].get('mitarbeiterId')) === "undefined" || records[0].get('mitarbeiterId') === null)) {
 		                        	DigiWebApp.ZeitbuchungenController.set('items', []);
 		                        } else {
 		                        	DigiWebApp.ZeitbuchungenController.set('items', records);
@@ -20452,7 +20452,7 @@ DigiWebApp.InfoPage = M.PageView.design({
         })
 
         , buildLabel: M.LabelView.design({
-              value: 'Build: 3926'
+              value: 'Build: 3927'
             , cssClass: 'infoLabel marginBottom25 unselectable'
         })
 
