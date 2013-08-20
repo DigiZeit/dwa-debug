@@ -7262,7 +7262,7 @@ DigiWebApp.RequestController = M.Controller.extend({
      */
     , errorCallback: {}
     
-    , softwareVersion: 3908
+    , softwareVersion: 3909
 
 
     /**
@@ -11988,6 +11988,9 @@ DigiWebApp.SelectionController = M.Controller.extend({
         }
         
 		if (DigiWebApp.SettingsController.getSetting("auftragsDetailsKoppeln")) {
+			if (typeof(M.ViewManager.getView('orderInfoPage', 'order').getSelection()) === "undefined") {
+				DigiWebApp.OrderInfoController.init();
+			}
 			M.ViewManager.getView('orderInfoPage', 'order').setSelection(orderId);
 			DigiWebApp.OrderInfoController.setPositions();
 			DigiWebApp.OrderInfoController.setItem();
@@ -12044,6 +12047,9 @@ DigiWebApp.SelectionController = M.Controller.extend({
         }
 
 		if (DigiWebApp.SettingsController.getSetting("auftragsDetailsKoppeln")) {
+			if (typeof(M.ViewManager.getView('orderInfoPage', 'order').getSelection()) === "undefined") {
+				DigiWebApp.OrderInfoController.init();
+			}
 			M.ViewManager.getView('orderInfoPage', 'position').setSelection(posId);
 			DigiWebApp.OrderInfoController.setItem();
 		}
@@ -20386,7 +20392,7 @@ DigiWebApp.InfoPage = M.PageView.design({
         })
 
         , buildLabel: M.LabelView.design({
-              value: 'Build: 3908'
+              value: 'Build: 3909'
             , cssClass: 'infoLabel marginBottom25 unselectable'
         })
 
