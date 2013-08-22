@@ -7396,7 +7396,7 @@ DigiWebApp.RequestController = M.Controller.extend({
      */
     , errorCallback: {}
     
-    , softwareVersion: 3968
+    , softwareVersion: 3969
 
 
     /**
@@ -20592,7 +20592,7 @@ DigiWebApp.InfoPage = M.PageView.design({
         })
 
         , buildLabel: M.LabelView.design({
-              value: 'Build: 3968'
+              value: 'Build: 3969'
             , cssClass: 'infoLabel marginBottom25 unselectable'
         })
 
@@ -21829,12 +21829,22 @@ DigiWebApp.TimeDataForEditTemplateView = M.ListItemView.design({
                 v = v.split(',');
                 //var date1 = M.Date.create(Number(v[0]));
                 //var date2 = v[1] !== "0" ? M.Date.create(Number(v[1])) : null;
-                var dateStart = new Date(Number(v[0]) + (1000 * 60 * (new Date().getTimezoneOffset() - Number(v[2]))));
-                var date1 = M.Date.create(dateStart.getTime());
-                var date2 = null;
-                if (v[1] !== "0") {
-                	var dateEnd = new Date(Number(v[1]) + (1000 * 60 * (new Date().getTimezoneOffset() - Number(v[2]))));
-                	date2 = M.Date.create(dateEnd.getTime());
+                if (typeof(v[2]) === "undefined" ) {
+                	var dateStart = new Date(Number(v[0])
+                    var date1 = M.Date.create(dateStart.getTime());
+                    var date2 = null;
+                    if (v[1] !== "0") {
+                    	var dateEnd = new Date(Number(v[1]));
+                    	date2 = M.Date.create(dateEnd.getTime());
+                    }
+                } else {
+                	var dateStart = new Date(Number(v[0]) + (1000 * 60 * (new Date().getTimezoneOffset() - Number(v[2]))));
+                    var date1 = M.Date.create(dateStart.getTime());
+                    var date2 = null;
+                    if (v[1] !== "0") {
+                    	var dateEnd = new Date(Number(v[1]) + (1000 * 60 * (new Date().getTimezoneOffset() - Number(v[2]))));
+                    	date2 = M.Date.create(dateEnd.getTime());
+                    }
                 }
                 if(date2) {
                     // cut minutes down => 12:05:59 is going to be 12:05:00
@@ -24299,12 +24309,22 @@ DigiWebApp.TimeDataSentTemplateView = M.ListItemView.design({
                 v = v.split(',');
                 //var date1 = M.Date.create(Number(v[0]));
                 //var date2 = v[1] !== "0" ? M.Date.create(Number(v[1])) : null;
-                var dateStart = new Date(Number(v[0]) + (1000 * 60 * (new Date().getTimezoneOffset() - Number(v[2]))));
-                var date1 = M.Date.create(dateStart.getTime());
-                var date2 = null;
-                if (v[1] !== "0") {
-                	var dateEnd = new Date(Number(v[1]) + (1000 * 60 * (new Date().getTimezoneOffset() - Number(v[2]))));
-                	date2 = M.Date.create(dateEnd.getTime());
+                if (typeof(v[2]) === "undefined" ) {
+                	var dateStart = new Date(Number(v[0])
+                    var date1 = M.Date.create(dateStart.getTime());
+                    var date2 = null;
+                    if (v[1] !== "0") {
+                    	var dateEnd = new Date(Number(v[1]));
+                    	date2 = M.Date.create(dateEnd.getTime());
+                    }
+                } else {
+                	var dateStart = new Date(Number(v[0]) + (1000 * 60 * (new Date().getTimezoneOffset() - Number(v[2]))));
+                    var date1 = M.Date.create(dateStart.getTime());
+                    var date2 = null;
+                    if (v[1] !== "0") {
+                    	var dateEnd = new Date(Number(v[1]) + (1000 * 60 * (new Date().getTimezoneOffset() - Number(v[2]))));
+                    	date2 = M.Date.create(dateEnd.getTime());
+                    }
                 }
                 //console.log(v, dateStart, date1, date2);
                 if(date2) {
@@ -27057,12 +27077,22 @@ DigiWebApp.TimeDataTemplateView = M.ListItemView.design({
                 v = v.split(',');
                 //var date1 = M.Date.create(Number(v[0]));
                 //var date2 = v[1] !== "0" ? M.Date.create(Number(v[1])) : null;
-                var dateStart = new Date(Number(v[0]) + (1000 * 60 * (new Date().getTimezoneOffset() - Number(v[2]))));
-                var date1 = M.Date.create(dateStart.getTime());
-                var date2 = null;
-                if (v[1] !== "0") {
-                	var dateEnd = new Date(Number(v[1]) + (1000 * 60 * (new Date().getTimezoneOffset() - Number(v[2]))));
-                	date2 = M.Date.create(dateEnd.getTime());
+                if (typeof(v[2]) === "undefined" ) {
+                	var dateStart = new Date(Number(v[0])
+                    var date1 = M.Date.create(dateStart.getTime());
+                    var date2 = null;
+                    if (v[1] !== "0") {
+                    	var dateEnd = new Date(Number(v[1]));
+                    	date2 = M.Date.create(dateEnd.getTime());
+                    }
+                } else {
+                	var dateStart = new Date(Number(v[0]) + (1000 * 60 * (new Date().getTimezoneOffset() - Number(v[2]))));
+                    var date1 = M.Date.create(dateStart.getTime());
+                    var date2 = null;
+                    if (v[1] !== "0") {
+                    	var dateEnd = new Date(Number(v[1]) + (1000 * 60 * (new Date().getTimezoneOffset() - Number(v[2]))));
+                    	date2 = M.Date.create(dateEnd.getTime());
+                    }
                 }
                 if(date2) {
                     // cut minutes down => 12:05:59 is going to be 12:05:00
