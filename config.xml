@@ -2,8 +2,8 @@
 <widget xmlns	= "http://www.w3.org/ns/widgets"
 	xmlns:gap	= "http://phonegap.com/ns/1.0"
 	id		    = "com.digi.webappbeta"
-	versionCode = "4045"
-	version 	= "1.6.1.4045">
+	versionCode = "4046"
+	version 	= "1.6.1.4046">
 
 	<name>DIGI-WebApp Beta</name>
 
@@ -59,7 +59,7 @@ which PhoneGap requires. -->
 
 <!-- include PhonegapPlugIns -->
 	<gap:plugin name="com.phonegap.plugins.childbrowser" />
-	<gap:plugin name="com.phonegap.plugins.barcodescanner" />
+	<!-- <gap:plugin name="com.phonegap.plugins.barcodescanner" /> -->
 	<!-- <gap:plugin name="com.adobe.plugins.pushplugin" /> --> <!-- yet incompatible with BlackBerry prior 10 -->
 	
 <!-- if a single icon is specified then Build will use it for all platforms -->
