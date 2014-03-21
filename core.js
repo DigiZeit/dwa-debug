@@ -1171,6 +1171,182 @@ M.StringBuilder = M.Object.extend(
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2011 panacoda GmbH. All rights reserved.
+// Creator:   Dominik
+// Date:      29.11.2010
+// License:   Dual licensed under the MIT or GPL Version 2 licenses.
+//            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
+//            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
+// ==========================================================================
+
+m_require('core/foundation/object.js');
+
+/**
+ * @class
+ *
+ * M.I18N defines a prototype for internationalisation and localisation within
+ * The M-Project. It is used to set and get the application's language and to
+ * localize any string within an application.
+ *
+ * @extends M.Object
+ */
+M.I18N = M.Object.extend(
+/** @scope M.I18N.prototype */ {
+
+    /**
+     * The type of this object.
+     *
+     * @type String
+     */
+    type: 'M.I18N',
+
+    /**
+     * The system's default language.
+     *
+     * @type String
+     */
+    defaultLanguage: 'en_us',
+
+    /**
+     * This property is used to map the navigator's language to an ISO standard
+     * if necessary. E.g. 'de' will be mapped to 'de_de'. Currently we only provide
+     * support for english and german. More languages are about to come or can be
+     * added by overwriting this property.
+     *
+     * @type Object
+     */
+    languageMapper: {
+        de: 'de_de',
+        en: 'en_us'
+    },
+    
+    /**
+     * This method returns the localized string for the given key based on
+     * the current language.
+     *
+     * @param {String} key The key to the localized string.
+     * @param {Object} context An object containing value parts for the translated string
+     * @returns {String} The localized string based on the current application language.
+     */
+    l: function(key, context) {
+        return this.localize(key, context);
+    },
+
+    /**
+     * This method returns the localized string for the given key based on
+     * the current language. It is internally used as a wrapper for l() for
+     * a better readability.
+     *
+     * @private
+     * @param {String} key The key to the localized string.
+     * @param {Object} context An object containing value parts for the translated string
+     * @returns {String} The localized string based on the current application language.
+     */
+    localize: function(key, context) {
+        var translation;
+        if(!M.Application.currentLanguage) {
+            M.Application.currentLanguage = this.getLanguage();
+        }
+        if(this[M.Application.currentLanguage] && this[M.Application.currentLanguage][key]) {
+            translation = this[M.Application.currentLanguage][key];
+        } else if(this[M.Application.defaultLanguage] && this[M.Application.defaultLanguage][key]) {
+            M.Logger.log('Key \'' + key + '\' not defined for language \'' + M.Application.currentLanguage + '\', switched to default language \'' + M.Application.defaultLanguage + '\'', M.WARN);
+            translation = this[M.Application.defaultLanguage][key];
+        }  else if(this[this.defaultLanguage] && this[this.defaultLanguage][key]) {
+            M.Logger.log('Key \'' + key + '\' not defined for language \'' + M.Application.currentLanguage + '\', switched to system\'s default language \'' + this.defaultLanguage + '\'', M.WARN);
+            translation = this[this.defaultLanguage][key];
+        } else {
+            M.Logger.log('Key \'' + key + '\' not defined for both language \'' + M.Application.currentLanguage + '\' and the system\'s default language \'' + this.defaultLanguage + '\'', M.WARN);
+            return null;
+        }
+        if(context) {
+            try {
+                translation = _.template(translation, context);
+            } catch(e) {
+                M.Logger.log('Error in I18N: Check your context object and the translation string with key "'+ key + '". Error Message: ' + e, M.ERR);
+            }
+        }
+        return translation;
+    },
+
+    /**
+     * This method sets the applications current language and forces it to reload.
+     *
+     * @param {String} language The language to be set.
+     */
+    setLanguage: function(language) {
+        if(!this.isLanguageAvailable(language)) {
+            M.Logger.log('There is no language \'' + language + '\' specified (using default language \'' + this.defaultLanguage + '\' instead!', M.WARN);
+            this.setLanguage(this.defaultLanguage);
+            return;
+        } else if(language && language === M.Application.currentLanguage) {
+            M.Logger.log('Language \'' + language + '\' already selected', M.INFO);
+            return;
+        }
+
+        if(localStorage) {
+            localStorage.setItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + 'lang', language);
+            location.href = location.protocol + '//' + location.host + location.pathname;
+        }
+    },
+
+    /**
+     * This method is used to get a language for the current user. This process is divided
+     * into three steps. If one step leads to a language, this on is returned. The steps are
+     * prioritized as follows:
+     *
+     * - get the user's language by checking his navigator
+     * - use the application's default language
+     * - use the systems's default language
+     *
+     * @param {Boolean} returnNavigatorLanguage Specify whether to return the navigator's language even if this language is not supported by this app.
+     * @returns {String} The user's language.
+     */
+    getLanguage: function(returnNavigatorLanguage) {
+        var language = null;
+
+        if(localStorage) {
+            language = localStorage.getItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + 'lang');
+        }
+
+        if(language) {
+            return language;
+        } else if(navigator) {
+            var regexResult = /([a-zA-Z]{2,3})[\s_.-]?([a-zA-Z]{2,3})?/.exec(navigator.language);
+            if(regexResult && this[regexResult[0]]) {
+                return regexResult[0].toLowerCase();
+            } else if(regexResult && regexResult[1] && this.languageMapper[regexResult[1]]) {
+                var language = this.languageMapper[regexResult[1]];
+                return language.toLowerCase();
+            } else if(M.Application.defaultLanguage) {
+                return M.Application.defaultLanguage.toLowerCase();
+            } else {
+                return this.defaultLanguage;
+            }
+        } else {
+            return this.defaultLanguage;
+        }
+    },
+
+    /**
+     * This method checks if the passed language is available within the app or not. 
+     *
+     * @param {String} language The language to be checked.
+     * @returns {Boolean} Indicates whether the requested language is available or not.
+     */
+    isLanguageAvailable: function(language) {
+        if(this[language] && typeof(this[language]) === 'object') {
+            return true;
+        } else {
+            M.Logger.log('no language \'' + language + '\' specified.', M.WARN);
+            return false;
+        }
+    }
+
+});
+// ==========================================================================
+// Project:   The M-Project - Mobile HTML5 Application Framework
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Sebastian
 // Date:      22.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -1436,182 +1612,6 @@ M.Environment = M.Object.extend(
             return YES;
         }
         return NO;
-    }
-
-});
-// ==========================================================================
-// Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
-//            (c) 2011 panacoda GmbH. All rights reserved.
-// Creator:   Dominik
-// Date:      29.11.2010
-// License:   Dual licensed under the MIT or GPL Version 2 licenses.
-//            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-//            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-// ==========================================================================
-
-m_require('core/foundation/object.js');
-
-/**
- * @class
- *
- * M.I18N defines a prototype for internationalisation and localisation within
- * The M-Project. It is used to set and get the application's language and to
- * localize any string within an application.
- *
- * @extends M.Object
- */
-M.I18N = M.Object.extend(
-/** @scope M.I18N.prototype */ {
-
-    /**
-     * The type of this object.
-     *
-     * @type String
-     */
-    type: 'M.I18N',
-
-    /**
-     * The system's default language.
-     *
-     * @type String
-     */
-    defaultLanguage: 'en_us',
-
-    /**
-     * This property is used to map the navigator's language to an ISO standard
-     * if necessary. E.g. 'de' will be mapped to 'de_de'. Currently we only provide
-     * support for english and german. More languages are about to come or can be
-     * added by overwriting this property.
-     *
-     * @type Object
-     */
-    languageMapper: {
-        de: 'de_de',
-        en: 'en_us'
-    },
-    
-    /**
-     * This method returns the localized string for the given key based on
-     * the current language.
-     *
-     * @param {String} key The key to the localized string.
-     * @param {Object} context An object containing value parts for the translated string
-     * @returns {String} The localized string based on the current application language.
-     */
-    l: function(key, context) {
-        return this.localize(key, context);
-    },
-
-    /**
-     * This method returns the localized string for the given key based on
-     * the current language. It is internally used as a wrapper for l() for
-     * a better readability.
-     *
-     * @private
-     * @param {String} key The key to the localized string.
-     * @param {Object} context An object containing value parts for the translated string
-     * @returns {String} The localized string based on the current application language.
-     */
-    localize: function(key, context) {
-        var translation;
-        if(!M.Application.currentLanguage) {
-            M.Application.currentLanguage = this.getLanguage();
-        }
-        if(this[M.Application.currentLanguage] && this[M.Application.currentLanguage][key]) {
-            translation = this[M.Application.currentLanguage][key];
-        } else if(this[M.Application.defaultLanguage] && this[M.Application.defaultLanguage][key]) {
-            M.Logger.log('Key \'' + key + '\' not defined for language \'' + M.Application.currentLanguage + '\', switched to default language \'' + M.Application.defaultLanguage + '\'', M.WARN);
-            translation = this[M.Application.defaultLanguage][key];
-        }  else if(this[this.defaultLanguage] && this[this.defaultLanguage][key]) {
-            M.Logger.log('Key \'' + key + '\' not defined for language \'' + M.Application.currentLanguage + '\', switched to system\'s default language \'' + this.defaultLanguage + '\'', M.WARN);
-            translation = this[this.defaultLanguage][key];
-        } else {
-            M.Logger.log('Key \'' + key + '\' not defined for both language \'' + M.Application.currentLanguage + '\' and the system\'s default language \'' + this.defaultLanguage + '\'', M.WARN);
-            return null;
-        }
-        if(context) {
-            try {
-                translation = _.template(translation, context);
-            } catch(e) {
-                M.Logger.log('Error in I18N: Check your context object and the translation string with key "'+ key + '". Error Message: ' + e, M.ERR);
-            }
-        }
-        return translation;
-    },
-
-    /**
-     * This method sets the applications current language and forces it to reload.
-     *
-     * @param {String} language The language to be set.
-     */
-    setLanguage: function(language) {
-        if(!this.isLanguageAvailable(language)) {
-            M.Logger.log('There is no language \'' + language + '\' specified (using default language \'' + this.defaultLanguage + '\' instead!', M.WARN);
-            this.setLanguage(this.defaultLanguage);
-            return;
-        } else if(language && language === M.Application.currentLanguage) {
-            M.Logger.log('Language \'' + language + '\' already selected', M.INFO);
-            return;
-        }
-
-        if(localStorage) {
-            localStorage.setItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + 'lang', language);
-            location.href = location.protocol + '//' + location.host + location.pathname;
-        }
-    },
-
-    /**
-     * This method is used to get a language for the current user. This process is divided
-     * into three steps. If one step leads to a language, this on is returned. The steps are
-     * prioritized as follows:
-     *
-     * - get the user's language by checking his navigator
-     * - use the application's default language
-     * - use the systems's default language
-     *
-     * @param {Boolean} returnNavigatorLanguage Specify whether to return the navigator's language even if this language is not supported by this app.
-     * @returns {String} The user's language.
-     */
-    getLanguage: function(returnNavigatorLanguage) {
-        var language = null;
-
-        if(localStorage) {
-            language = localStorage.getItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + 'lang');
-        }
-
-        if(language) {
-            return language;
-        } else if(navigator) {
-            var regexResult = /([a-zA-Z]{2,3})[\s_.-]?([a-zA-Z]{2,3})?/.exec(navigator.language);
-            if(regexResult && this[regexResult[0]]) {
-                return regexResult[0].toLowerCase();
-            } else if(regexResult && regexResult[1] && this.languageMapper[regexResult[1]]) {
-                var language = this.languageMapper[regexResult[1]];
-                return language.toLowerCase();
-            } else if(M.Application.defaultLanguage) {
-                return M.Application.defaultLanguage.toLowerCase();
-            } else {
-                return this.defaultLanguage;
-            }
-        } else {
-            return this.defaultLanguage;
-        }
-    },
-
-    /**
-     * This method checks if the passed language is available within the app or not. 
-     *
-     * @param {String} language The language to be checked.
-     * @returns {Boolean} Indicates whether the requested language is available or not.
-     */
-    isLanguageAvailable: function(language) {
-        if(this[language] && typeof(this[language]) === 'object') {
-            return true;
-        } else {
-            M.Logger.log('no language \'' + language + '\' specified.', M.WARN);
-            return false;
-        }
     }
 
 });
@@ -4158,6 +4158,245 @@ M.ModelAttribute.attr = function(dataType, opts) {
 };
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
+// Copyright: (c) 2011 panacoda GmbH. All rights reserved.
+// Creator:   Dominik
+// Date:      26.07.2011
+// License:   Dual licensed under the MIT or GPL Version 2 licenses.
+//            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
+//            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
+// ==========================================================================
+
+m_require('core/utility/logger.js');
+
+/**
+ * @class
+ *
+ * A data consumer can be called a read-only data provider. It's only job is it to retrieve some data form
+ * remote services, e.g. a webservice, and to push them into the store.
+ *
+ * Note: So far we only support data in JSON format!
+ *
+ * @extends M.Object
+ */
+M.DataConsumer = M.Object.extend(
+/** @scope M.DataConsumer.prototype */ {
+
+    /**
+     * The type of this object.
+     *
+     * @type String
+     */
+    type: 'M.DataConsumer',
+
+    /**
+     * This property can be used to specify the path to the desired data within
+     * the response. Simply name the path by concatenating the path parts with
+     * a '.', e.g.: 'path.to.my.desired.response'.
+     *
+     * @type String
+     */
+    responsePath: null,
+
+    /**
+     * This property specifies the used http method for the request. By default
+     * GET is used.
+     *
+     * @type String
+     */
+    httpMethod: 'GET',
+
+    /**
+     * This property can be used to specify whether or not to append any fetched
+     * data sets to the existing records. If set to NO, the model's records are
+     * removed whenever the find() method is called.
+     *
+     * @type Boolean
+     */
+    appendRecords: YES,
+
+    /**
+     * The urlParams property will be pushed to the url() method of your data
+     * consumer. This should look like:
+     *
+     *   url: function(query, rpp) {
+     *     return 'http://www.myserver.com/request?query=' + query + '&rpp=' + rpp
+     *   }
+     *
+     * @type String
+     */
+    urlParams: null,
+
+    /**
+     * Use this method within your model to configure the data consumer. Set
+     * resp. override all the default object's properties, e.g.:
+     *
+     *   {
+     *     urlParams: {
+     *       query: 'html5',
+     *       rpp: 10
+     *     },
+     *     appendRecords: YES,
+     *     callbacks: {
+     *       success: {
+     *         target: MyApp.MyController,
+     *         action: 'itWorked'
+     *       },
+     *       error: {
+     *         action: function(e) {
+     *           console.log(e);
+     *         }
+     *       }
+     *     },
+     *     map: function(obj) {
+     *       return {
+     *         userName: obj.from_user,
+     *         userImage: obj.profile_image_url,
+     *         createdAt: obj.created_at,
+     *         tweet: obj.text
+     *       };
+     *     }
+     *   }
+     *
+     * @param {Object} obj The configuration parameters for the data consumer.
+     */
+    configure: function(obj) {
+        return this.extend(obj);
+    },
+
+    /**
+     * This method is automatically called by the model, if you call the model's
+     * find(). To execute the data consuming processs imply pass along an object
+     * specifying the call's parameters as follows:
+     *
+     * {
+     *   urlParams: {
+     *     query: 'html5',
+     *     rpp: 10
+     *   }
+     * }
+     *
+     * These parameters will automatically be added to the url, using the
+     * url() method of your data consumer.
+     *
+     * Depending on the success/failure of the call, the specified success
+     * resp. error callback will be called.
+     *
+     * @param {Object} obj The options for the call.
+     */
+    find: function(obj) {
+        this.include(obj);
+
+        var that = this;
+        M.Request.init({
+            url: this.bindToCaller(this, this.url, _.toArray(this.urlParams))(),
+            isJSON: YES,
+            callbacks: {
+                success: {
+                    target: this,
+                    action: function(data, message, request){
+                        /* if no data was returned, skip this */
+                        if(data) {
+                            /* apply response path */
+                            if(this.responsePath) {
+                                var responsePath = this.responsePath.split('.');
+                                _.each(responsePath, function(subPath) {
+                                    data = data[subPath];
+                                });
+                            }
+
+                            /* if no data was found inside responsePath, skip */
+                            if(data && !_.isArray(data) || _.isArray(data) && data.length > 0) {
+                                /* make sure we've got an array */
+                                if(!_.isArray(data)) {
+                                    data = [data];
+                                }
+
+                                /* apply map function and create a record for all data sets */
+                                var records = [];
+                                _.each(data, function(d) {
+                                    var record = obj.model.createRecord(that.map(d));
+                                    records.push(record);
+                                });
+
+                                /* call callback */
+                                if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks['success'])) {
+                                    M.EventDispatcher.callHandler(this.callbacks['success'], null, NO, [records]);
+                                }
+                            } else {
+                                /* log message, that there were no data sets found in given response path */
+                                M.Logger.log('There were no data sets found in response path \'' + this.responsePath + '\'.', M.INFO);
+
+                                /* call callback */
+                                if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks['success'])) {
+                                    M.EventDispatcher.callHandler(this.callbacks['success'], null, NO, [[]]);
+                                }
+                            }
+                        } else {
+                            /* log message, this there were no data sets returned */
+                            M.Logger.log('There was no data returned for url \'' + this.bindToCaller(this, this.url, _.toArray(this.urlParams))() + '\'.', M.INFO);
+
+                            /* call callback */
+                            if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks['success'])) {
+                                M.EventDispatcher.callHandler(this.callbacks['success'], null, NO, [[]]);
+                            }
+                        }
+                    }
+                },
+                error: {
+                    target: this,
+                    action: function(request, message){
+                        /* call callback */
+                        if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks['error'])) {
+                            M.EventDispatcher.callHandler(this.callbacks['error'], null, NO, message);
+                        }
+                    }
+                }
+            }
+        }).send();
+    },
+
+    /**
+     * Override this method within the data consumer's configuration, to map
+     * the response object to your model's properties as follows:
+     *
+     *   map: function(obj) {
+     *       return {
+     *           userName: obj.from_user,
+     *           userImage: obj.profile_image_url,
+     *           createdAt: obj.created_at,
+     *           tweet: obj.text
+     *       };
+     *   }
+     *
+     * @param {Object} obj The response object.
+     * @interface
+     */
+    map: function(obj) {
+        // needs to be implemented by concrete data consumer object
+    },
+
+    /**
+     * Override this method within the data consumer's configuration, to tell
+     * the component which url to connect to and with which parameters as
+     * follows:
+     *
+     *   url: function(query, rpp) {
+     *     return 'http://www.myserver.com/request?query=' + query + '&rpp=' + rpp
+     *   }
+     *
+     * The parameters passed to this method are defined by the configuration
+     * of your data consumer. See the urlParams property for further information
+     * about that.
+     *
+     * @interface
+     */
+    url: function() {
+        // needs to be implemented by concrete data consumer object
+    }
+
+});
+// ==========================================================================
+// Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Sebastian
@@ -5022,245 +5261,6 @@ M.Observable = M.Object.extend(
                 }
             }
         });
-    }
-
-});
-// ==========================================================================
-// Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: (c) 2011 panacoda GmbH. All rights reserved.
-// Creator:   Dominik
-// Date:      26.07.2011
-// License:   Dual licensed under the MIT or GPL Version 2 licenses.
-//            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-//            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-// ==========================================================================
-
-m_require('core/utility/logger.js');
-
-/**
- * @class
- *
- * A data consumer can be called a read-only data provider. It's only job is it to retrieve some data form
- * remote services, e.g. a webservice, and to push them into the store.
- *
- * Note: So far we only support data in JSON format!
- *
- * @extends M.Object
- */
-M.DataConsumer = M.Object.extend(
-/** @scope M.DataConsumer.prototype */ {
-
-    /**
-     * The type of this object.
-     *
-     * @type String
-     */
-    type: 'M.DataConsumer',
-
-    /**
-     * This property can be used to specify the path to the desired data within
-     * the response. Simply name the path by concatenating the path parts with
-     * a '.', e.g.: 'path.to.my.desired.response'.
-     *
-     * @type String
-     */
-    responsePath: null,
-
-    /**
-     * This property specifies the used http method for the request. By default
-     * GET is used.
-     *
-     * @type String
-     */
-    httpMethod: 'GET',
-
-    /**
-     * This property can be used to specify whether or not to append any fetched
-     * data sets to the existing records. If set to NO, the model's records are
-     * removed whenever the find() method is called.
-     *
-     * @type Boolean
-     */
-    appendRecords: YES,
-
-    /**
-     * The urlParams property will be pushed to the url() method of your data
-     * consumer. This should look like:
-     *
-     *   url: function(query, rpp) {
-     *     return 'http://www.myserver.com/request?query=' + query + '&rpp=' + rpp
-     *   }
-     *
-     * @type String
-     */
-    urlParams: null,
-
-    /**
-     * Use this method within your model to configure the data consumer. Set
-     * resp. override all the default object's properties, e.g.:
-     *
-     *   {
-     *     urlParams: {
-     *       query: 'html5',
-     *       rpp: 10
-     *     },
-     *     appendRecords: YES,
-     *     callbacks: {
-     *       success: {
-     *         target: MyApp.MyController,
-     *         action: 'itWorked'
-     *       },
-     *       error: {
-     *         action: function(e) {
-     *           console.log(e);
-     *         }
-     *       }
-     *     },
-     *     map: function(obj) {
-     *       return {
-     *         userName: obj.from_user,
-     *         userImage: obj.profile_image_url,
-     *         createdAt: obj.created_at,
-     *         tweet: obj.text
-     *       };
-     *     }
-     *   }
-     *
-     * @param {Object} obj The configuration parameters for the data consumer.
-     */
-    configure: function(obj) {
-        return this.extend(obj);
-    },
-
-    /**
-     * This method is automatically called by the model, if you call the model's
-     * find(). To execute the data consuming processs imply pass along an object
-     * specifying the call's parameters as follows:
-     *
-     * {
-     *   urlParams: {
-     *     query: 'html5',
-     *     rpp: 10
-     *   }
-     * }
-     *
-     * These parameters will automatically be added to the url, using the
-     * url() method of your data consumer.
-     *
-     * Depending on the success/failure of the call, the specified success
-     * resp. error callback will be called.
-     *
-     * @param {Object} obj The options for the call.
-     */
-    find: function(obj) {
-        this.include(obj);
-
-        var that = this;
-        M.Request.init({
-            url: this.bindToCaller(this, this.url, _.toArray(this.urlParams))(),
-            isJSON: YES,
-            callbacks: {
-                success: {
-                    target: this,
-                    action: function(data, message, request){
-                        /* if no data was returned, skip this */
-                        if(data) {
-                            /* apply response path */
-                            if(this.responsePath) {
-                                var responsePath = this.responsePath.split('.');
-                                _.each(responsePath, function(subPath) {
-                                    data = data[subPath];
-                                });
-                            }
-
-                            /* if no data was found inside responsePath, skip */
-                            if(data && !_.isArray(data) || _.isArray(data) && data.length > 0) {
-                                /* make sure we've got an array */
-                                if(!_.isArray(data)) {
-                                    data = [data];
-                                }
-
-                                /* apply map function and create a record for all data sets */
-                                var records = [];
-                                _.each(data, function(d) {
-                                    var record = obj.model.createRecord(that.map(d));
-                                    records.push(record);
-                                });
-
-                                /* call callback */
-                                if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks['success'])) {
-                                    M.EventDispatcher.callHandler(this.callbacks['success'], null, NO, [records]);
-                                }
-                            } else {
-                                /* log message, that there were no data sets found in given response path */
-                                M.Logger.log('There were no data sets found in response path \'' + this.responsePath + '\'.', M.INFO);
-
-                                /* call callback */
-                                if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks['success'])) {
-                                    M.EventDispatcher.callHandler(this.callbacks['success'], null, NO, [[]]);
-                                }
-                            }
-                        } else {
-                            /* log message, this there were no data sets returned */
-                            M.Logger.log('There was no data returned for url \'' + this.bindToCaller(this, this.url, _.toArray(this.urlParams))() + '\'.', M.INFO);
-
-                            /* call callback */
-                            if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks['success'])) {
-                                M.EventDispatcher.callHandler(this.callbacks['success'], null, NO, [[]]);
-                            }
-                        }
-                    }
-                },
-                error: {
-                    target: this,
-                    action: function(request, message){
-                        /* call callback */
-                        if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks['error'])) {
-                            M.EventDispatcher.callHandler(this.callbacks['error'], null, NO, message);
-                        }
-                    }
-                }
-            }
-        }).send();
-    },
-
-    /**
-     * Override this method within the data consumer's configuration, to map
-     * the response object to your model's properties as follows:
-     *
-     *   map: function(obj) {
-     *       return {
-     *           userName: obj.from_user,
-     *           userImage: obj.profile_image_url,
-     *           createdAt: obj.created_at,
-     *           tweet: obj.text
-     *       };
-     *   }
-     *
-     * @param {Object} obj The response object.
-     * @interface
-     */
-    map: function(obj) {
-        // needs to be implemented by concrete data consumer object
-    },
-
-    /**
-     * Override this method within the data consumer's configuration, to tell
-     * the component which url to connect to and with which parameters as
-     * follows:
-     *
-     *   url: function(query, rpp) {
-     *     return 'http://www.myserver.com/request?query=' + query + '&rpp=' + rpp
-     *   }
-     *
-     * The parameters passed to this method are defined by the configuration
-     * of your data consumer. See the urlParams property for further information
-     * about that.
-     *
-     * @interface
-     */
-    url: function() {
-        // needs to be implemented by concrete data consumer object
     }
 
 });
