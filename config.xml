@@ -3,9 +3,9 @@
 	xmlns:gap	= "http://phonegap.com/ns/1.0"
 	xmlns:android = "http://schemas.android.com/apk/res/android"
 	id		    = "com.digi.webappbeta"
-	android-versionCode = "11004"
-	versionCode = "11004"
-	version 	= "1.9.0.11004">
+	android-versionCode = "11005"
+	versionCode = "11005"
+	version 	= "1.9.0.11005">
 
   <name>DIGI-WebApp Beta</name>
 
@@ -21,8 +21,6 @@
   <!-- <gap:platform name="webos" /> -->
   <!-- <gap:platform name="symbian" /> -->
   <!-- <gap:platform name="blackberry" project="widgets" /> -->
-
-  <!--<icon src="res/Icon.png" role="default" />-->
 
   <!-- Auf 9.0.0 zu gehen ist nicht möglich, weil dann das Plugin
        local-notification bei iOS nicht mehr baut. -->
@@ -142,7 +140,7 @@
   <allow-intent href="https://*/*" />
 
   <gap:config-file platform="ios" parent="CFBundleShortVersionString">
-    <string>11004</string>
+    <string>11005</string>
   </gap:config-file>
 
   <gap:config-file platform="ios" parent="UIStatusBarHidden">
@@ -176,15 +174,6 @@
   <!-- <gap:config-file platform="android" parent="/manifest/application"><activity android:launchMode="singleTask" /></gap:config-file> -->
   <!-- <gap:config-file platform="android" parent="/manifest/application"><activity android:launchMode="singleTop" /></gap:config-file> -->
   <!-- <gap:config-file platform="android" parent="/manifest/application"><activity android:launchMode="singleInstance" /></gap:config-file> -->
-
-  <!-- the following is useful for Build when you have many icons; this way
-    Blackberry will use the correct icon -->
-  <!--<platform name="blackberry">
-  <icon src="res/Icon.png" />
-  <icon src="res/Icon.png" state="hover" />
-  <splash src="res/splash_default_320x426_DSO.png" platform="blackberry" />
-  </platform>
-  -->
 
   <!-- iOS requires specific dimensions for app icons; classic iPhone screens, Retina
       Screens, and iPad screen respectively -->
